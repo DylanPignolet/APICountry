@@ -74,6 +74,15 @@
   border-right-width: 0px;
 }
 
+.flagImgTable {
+  height: 100%;
+  min-width: 65%;
+  object-fit: cover;
+  border-style: solid;
+  border-left-width: 1px;
+  border-right-width: 1px;
+}
+
 /* Affichage des infos dans les cards */
 .infoDiv {
   display: flex;

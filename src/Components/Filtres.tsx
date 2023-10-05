@@ -7,11 +7,10 @@ import { IAPIRegion } from '../Interface';
 function Filtres({ searchBar, setSearchBar, filter, setFilter, currencyFilter, setCurrencyFilter }) {
     const [getRegions, setRegions] = useState([]);
     const [currenciesArray, setCurrenciesArray] = useState<string[]>([]);
-
     const regionArray = getRegions;
     const flatRegionArray = regionArray.map((item: IAPIRegion) => item.region).flat();
     const newRegionArray = flatRegionArray.filter((value, index, self) => self.indexOf(value) === index);
-
+    
     const callApiRegion = async () => {
         const response = await fetch(`https://restcountries.com/v3.1/all?fields=region`)
         const jsonResponse = await response.json();
