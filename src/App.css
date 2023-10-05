@@ -132,3 +132,8 @@ select {
   font-weight: 900;
   padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
+
+th {
+  color: #3394B5 !important;
+  font-weight: 900 !important;
+}
