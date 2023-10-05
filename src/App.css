@@ -79,8 +79,7 @@
   min-width: 65%;
   object-fit: cover;
   border-style: solid;
-  border-left-width: 1px;
-  border-right-width: 1px;
+  border-width: 1px;
 }
 
 /* Affichage des infos dans les cards */
