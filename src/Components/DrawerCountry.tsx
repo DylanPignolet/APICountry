@@ -76,7 +76,7 @@ function DrawerCountry({ isOpen, onClose, m}: DrawerCountryProps) {
                     onClick={onClose}
                     onKeyDown={onClose}
                 >
-                    <List>
+                    <List sx={{alignItems: 'flex-start'}}>
                         <ListItem>
                             <h2>{country.name.common}</h2> ({m.name.nativeName ? natMap[0].common : <i>Inconnu</i>} )
                         </ListItem>

@@ -96,6 +96,7 @@ function CountryCard({ m }: {m: IAPICountry}) {
             /** Création d'une div pour chaque élément d'information
              * Récupération de la donnée correspondant à l'information pour chaque div
              */
+            console.log('Alerte')
             return (
                 <Card className='countryCard' key={country.name.common} sx={{ width: 600 }}>
                     <Stack sx={{justifyContent:'space-between'}}>

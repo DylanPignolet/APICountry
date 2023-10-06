@@ -150,9 +150,7 @@ function Countries() {
         </Stack>
         <Stack direction="row" className='cardStack'>
           {getCountry.map((country: IAPICountry) => (
-            <Stack>
             <CountryCard key={country.name.common} m={country} />
-            </Stack>
           ))}
         </Stack >
       </Stack>
