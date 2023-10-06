@@ -1,7 +1,9 @@
 import Card from '@mui/material/Card';
-import { Stack } from '@mui/joy';
+import { Button, Stack } from '@mui/joy';
 import { Typography } from '@mui/joy';
 import { IAPICountry } from '../Interface';
+import DrawerCountry from './DrawerCountry';
+import { useState } from 'react';
 
 
 function CountryCard({ m }: {m: IAPICountry}) {
@@ -36,8 +38,14 @@ function CountryCard({ m }: {m: IAPICountry}) {
          */
         const langMap = Object.values(languages);
 
-        // if(m.demonyms === undefined || ! m.demonyms.eng.f) console.warn(`Demonyms absent pour ${m.name.common}`);
+        const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+        const openDrawer = () => {
+            setIsDrawerOpen(true);
+        };
+        const closeDrawer = () => {
+            setIsDrawerOpen(false);
+        };
             /** Création de l'objet country qui va regrouper toutes les données récupérées dans l'API qui nous intéressent */
             const country: IAPICountry = {
             name: {
@@ -71,7 +79,15 @@ function CountryCard({ m }: {m: IAPICountry}) {
             },
             languages: {
                 languagesKey: m.languages ? langMap[0] : "",
-            }
+            },
+            population: m.population,
+            fifa: m.fifa,
+            car: {
+                signs: m.car.signs,
+                side: m.car.side,
+            },
+            timezones: m.timezones,
+            subregion: m.subregion,
             };
 
             //console.log(`Pays ${country.name.common} - Gentillé ${country.demonyms?.eng.f}`);
@@ -81,38 +97,45 @@ function CountryCard({ m }: {m: IAPICountry}) {
              * Récupération de la donnée correspondant à l'information pour chaque div
              */
             return (
-            <Card className='countryCard' key={country.name.common}>
-                <Stack className='infoDiv'>
-                <Typography className='infoName'>
-                    <b>Name:</b> {country.name.common}
-                </Typography>
-                <Typography className='info'>
-                    <b>Native name:</b> {m.name.nativeName ? natMap[0].common : <i>Inconnu</i>}
-                </Typography>
-                <Typography className='info'>
-                    <b>Capital:</b> {country.capital ? country.capital : <i>Inconnu</i>}
-                </Typography>
-                <Typography className='info'>
-                    <b>Region:</b> {country.region}
-                </Typography>
-                <Typography className='info'>
-                    <b>Monnaie:</b> {m.currencies ? currMap[0].name : <i>Inconnu</i>} 
-                </Typography>
-                <Typography className='info'>
-                    <b>Symbole : </b>{m.currencies ? currMap[0].symbol : <i>Inconnu</i>}
-                </Typography>
-                <Typography className='info'>
-                    <b>Gentilé : </b>{m.demonyms ? m.demonyms.eng.f : <i>Inconnu</i>}
-                </Typography>
-                <Typography className='info'>
-                    <b>Language : </b>{m.languages ? langMap[0]: <i>Inconnu</i>}
-                </Typography>
+                <Card className='countryCard' key={country.name.common} sx={{ width: 600 }}>
+                    <Stack sx={{justifyContent:'space-between'}}>
+                        <Stack sx={{flexDirection:'row', justifyContent:'space-between', width:'100%', height:'100%'}}>
+                            <Stack className='infoDiv' sx={{flexDirection:'column'}}>
+                                <Typography className='infoName'>
+                                    <b>Name:</b> {country.name.common}
+                                </Typography>
+                                <Typography className='info'>
+                                    <b>Native name:</b> {m.name.nativeName ? natMap[0].common : <i>Inconnu</i>}
+                                </Typography>
+                                <Typography className='info'>
+                                    <b>Capital:</b> {country.capital ? country.capital : <i>Inconnu</i>}
+                                </Typography>
+                                <Typography className='info'>
+                                    <b>Region:</b> {country.region}
+                                </Typography>
+                                <Typography className='info'>
+                                    <b>Monnaie:</b> {m.currencies ? currMap[0].name : <i>Inconnu</i>}
+                                </Typography>
+                                <Typography className='info'>
+                                    <b>Symbole:</b> {m.currencies ? currMap[0].symbol : <i>Inconnu</i>}
+                                </Typography>
+                                <Typography className='info'>
+                                    <b>Gentilé:</b> {m.demonyms ? m.demonyms.eng.f : <i>Inconnu</i>}
+                                </Typography>
+                                <Typography className='info'>
+                                    <b>Language:</b> {m.languages ? langMap[0] : <i>Inconnu</i>}
+                                </Typography>
+                            </Stack>
+                            <img
+                                    key="img"
+                                    src={country.flags.svg}
+                                    alt={country.flags.alt}
+                                    className="flagImg"
+                                />
+                        </Stack>
+                        <Button onClick={openDrawer} sx={{width:'100%', borderRadius:'0', backgroundColor:'#70C9E7' }}>More</Button>
+                        {isDrawerOpen && <DrawerCountry isOpen={isDrawerOpen} onClose={closeDrawer} m={m}/>}
                 </Stack>
-                <img key="img"
-                src={country.flags.svg} 
-                alt={country.flags.alt}
-                className="flagImg" 
-            />
             </Card>
         )
 }

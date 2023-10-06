@@ -72,6 +72,13 @@ interface IAPILangues {
     [key: string]: IAPILang
 }
 
+// Interface voiture
+
+interface IAPICar {
+    signs: Array<string>;
+    side: string;
+}
+
 // Interface d'un pays
 export interface IAPICountry {
     name: IAPIName;
@@ -81,6 +88,11 @@ export interface IAPICountry {
     demonyms?: IAPIDemonyms;
     currencies?: IAPICurrencies;
     languages?: IAPILangues;
+    population: number;
+    fifa: string;
+    car: IAPICar;
+    timezones: Array<string>;
+    subregion: string;
 }
 
 // const test: IAPICountry = {

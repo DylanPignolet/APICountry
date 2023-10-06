@@ -11,7 +11,6 @@ import Filtres from './Components/Filtres'
 import CountryRow from './Components/CountryRow'
 import Table from '@mui/joy/Table';
 
-
 /**Fonction permettant de mettre à jour notre site après que toutes les données aient été traitées. */
 function Countries() {
 
@@ -103,7 +102,9 @@ function Countries() {
   if(checked) {
     return(
       <Stack>
-      <Switch startDecorator="Card" endDecorator="Table" checked={checked} onChange={(event) => setChecked(event.target.checked)} />
+      <Switch 
+        startDecorator={<div style={{fontWeight:"700", color: '#00C674' }}>Card</div>}
+        endDecorator={<div style={{fontWeight:"900", color: '#1F62F2' }}>Table</div>} checked={checked} onChange={(event) => setChecked(event.target.checked)} />
       <Typography level='h1' sx={{fontSize: "3.5rem", mb: 3, textDecoration: "underline solid"}}>Liste des pays</Typography>
       <Stack>
         <Stack>
@@ -122,6 +123,7 @@ function Countries() {
                   <th>Gentilé</th>
                   <th>Language</th>
                   <th>Drapeau</th>
+                  <th></th>
               </tr>
             </thead>
             <tbody>
@@ -137,7 +139,10 @@ function Countries() {
   } else {
     return(
       <Stack>
-      <Switch startDecorator="Card" endDecorator="Table" checked={checked} onChange={(event) => setChecked(event.target.checked)} />
+      <Switch color={checked ? 'success' : 'success'}
+    startDecorator={<div style={{fontWeight:"900", color: '#008E6F' }}>Card</div>}
+    endDecorator={<div style={{fontWeight:"700", color: '#70C9E7' }}>Table</div>}
+    checked={checked} onChange={(event) => setChecked(event.target.checked)} />
       <Typography level='h1' sx={{fontSize: "3.5rem", mb: 3, textDecoration: "underline solid"}}>Liste des pays</Typography>
       <Stack>
         <Stack>
@@ -145,7 +150,9 @@ function Countries() {
         </Stack>
         <Stack direction="row" className='cardStack'>
           {getCountry.map((country: IAPICountry) => (
+            <Stack>
             <CountryCard key={country.name.common} m={country} />
+            </Stack>
           ))}
         </Stack >
       </Stack>

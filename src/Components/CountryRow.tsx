@@ -1,76 +1,69 @@
 import { IAPICountry} from '../Interface';
+import DrawerCountry from './DrawerCountry';
+import { Button } from '@mui/joy';
+import { useState } from 'react';
+
 
 function CountryTable({ m }: {m: IAPICountry}) {
 
 
     const nativeName = m.name.nativeName ? m.name.nativeName : "Inconnu";
-        /** Clés de l'objet NativeName */
+    const natMap = Object.values(nativeName);
+    const currencies = m.currencies ? m.currencies : "Inconnu";
+    const currMap = Object.values(currencies);
+    const languages = m.languages ? m.languages : "Inconnu";
+    const langMap = Object.values(languages);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-        /**
-         * Pour chaque clé de la propriété nativeName,
-         * on récupère la valeur appartenant à la clef
-         */
-        const natMap = Object.values(nativeName);
-
-        
-
-        /** Objet Currencies */
-        const currencies = m.currencies ? m.currencies : "Inconnu";
-        /** Clés de l'objet NativeName */
-
-        /**
-         * Pour chaque clé de la propriété nativeName,
-         * on récupère la valeur appartenant à la clef
-         */
-        const currMap = Object.values(currencies);
-
-        /** Objet NativeName */
-        const languages = m.languages ? m.languages : "Inconnu";
-        /** Clés de l'objet NativeName */
-
-        /**
-         * Pour chaque clé de la propriété nativeName,
-         * on récupère la valeur appartenant à la clef
-         */
-        const langMap = Object.values(languages);
-
-        // if(m.demonyms === undefined || ! m.demonyms.eng.f) console.warn(`Demonyms absent pour ${m.name.common}`);
-
-            /** Création de l'objet country qui va regrouper toutes les données récupérées dans l'API qui nous intéressent */
-        const country: IAPICountry = {
-        name: {
-            common: m.name.common,
-            official: m.name.official,
-            nativeName: {
-            natMapKey0: { 
-                official: m.name.nativeName ? natMap[0].official : "",
-                common: m.name.nativeName ? natMap[0].common : "" ,
-            }
-            }
-        },
-        flags: {
-            png: m.flags.png,
-            svg: m.flags.svg,
-            alt: m.flags.alt
-        },
-        capital: m.capital,
-        region: m.region,
-        demonyms: {
-            eng: {
-            f: m.demonyms ? m.demonyms.eng.f : "",
-            m: m.demonyms ? m.demonyms.eng.m : "",
-            },
-        },
-        currencies: {
-            currenciesKey: {
-            name: m.currencies ? currMap[0].name : "",
-            symbol: m.currencies ? currMap[0].symbol : "",
-            },
-        },
-        languages: {
-            languagesKey: m.languages ? langMap[0] : "",
-        }
+        const openDrawer = () => {
+            setIsDrawerOpen(true);
         };
+        const closeDrawer = () => {
+            setIsDrawerOpen(false);
+        };
+
+    const country: IAPICountry = {
+    name: {
+        common: m.name.common,
+        official: m.name.official,
+        nativeName: {
+        natMapKey0: { 
+            official: m.name.nativeName ? natMap[0].official : "",
+            common: m.name.nativeName ? natMap[0].common : "" ,
+        }
+        }
+    },
+    flags: {
+        png: m.flags.png,
+        svg: m.flags.svg,
+        alt: m.flags.alt
+    },
+    capital: m.capital,
+    region: m.region,
+    demonyms: {
+        eng: {
+        f: m.demonyms ? m.demonyms.eng.f : "",
+        m: m.demonyms ? m.demonyms.eng.m : "",
+        },
+    },
+    currencies: {
+        currenciesKey: {
+        name: m.currencies ? currMap[0].name : "",
+        symbol: m.currencies ? currMap[0].symbol : "",
+        },
+    },
+    languages: {
+        languagesKey: m.languages ? langMap[0] : "",
+    },
+    population: m.population,
+    fifa: m.fifa,
+    car: {
+        signs: m.car.signs,
+        side: m.car.side,
+    },
+    timezones: m.timezones,
+    subregion: m.subregion,
+    };
 
     return (
                 <tr key={country.name?.common}>
@@ -89,6 +82,8 @@ function CountryTable({ m }: {m: IAPICountry}) {
                         className="flagImgTable"
                     />
                     </td>
+                    <td><Button onClick={openDrawer} sx={{width:'100%', borderRadius:'0', backgroundColor:'#70C9E7' }}>More</Button>
+                        {isDrawerOpen && <DrawerCountry isOpen={isDrawerOpen} onClose={closeDrawer} m={m}/>}</td>
                 </tr>
     )
 }
