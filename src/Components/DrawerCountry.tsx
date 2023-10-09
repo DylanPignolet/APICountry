@@ -14,7 +14,6 @@ interface DrawerCountryProps {
 }
 
 function DrawerCountry({ isOpen, onClose, m}: DrawerCountryProps) {
-
     const nativeName = m.name.nativeName ? m.name.nativeName : "Inconnu";
     const natMap = Object.values(nativeName);
     const currencies = m.currencies ? m.currencies : "Inconnu";

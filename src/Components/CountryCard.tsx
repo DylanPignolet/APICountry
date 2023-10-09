@@ -5,7 +5,6 @@ import { IAPICountry } from '../Interface';
 import DrawerCountry from './DrawerCountry';
 import { useState } from 'react';
 
-
 function CountryCard({ m }: {m: IAPICountry}) {
     const nativeName = m.name.nativeName ? m.name.nativeName : "Inconnu";
         /** Clés de l'objet NativeName */
@@ -96,12 +95,11 @@ function CountryCard({ m }: {m: IAPICountry}) {
             /** Création d'une div pour chaque élément d'information
              * Récupération de la donnée correspondant à l'information pour chaque div
              */
-            console.log('Alerte')
             return (
-                <Card className='countryCard' key={country.name.common} sx={{ width: 600 }}>
-                    <Stack sx={{justifyContent:'space-between'}}>
-                        <Stack sx={{flexDirection:'row', justifyContent:'space-between', width:'100%', height:'100%'}}>
-                            <Stack className='infoDiv' sx={{flexDirection:'column'}}>
+                <Card className='countryCard' key={country.name.common}>
+                    <Stack sx={{justifyContent:'space-between', height:'100%', width:'100%'}}>
+                        <Stack sx={{flexDirection:'row', justifyContent:'space-between', width:'100%', height:'88%'}}>
+                            <Stack className='infoDiv' sx={{flexDirection:'column', justifyContent:'center'}}>
                                 <Typography className='infoName'>
                                     <b>Name:</b> {country.name.common}
                                 </Typography>
