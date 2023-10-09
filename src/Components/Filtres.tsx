@@ -61,8 +61,8 @@ function Filtres({ searchBar, setSearchBar, filter, setFilter, currencyFilter, s
     const handleCurrencyFilterChange = (event) => {
         const selectedCurrency = event.target.value;
         setCurrencyFilter(selectedCurrency);
-        setFilter("all"); // Reset the region filter when selecting a currency
-        setSearchBar(""); // Clear the search bar
+        setFilter("all");
+        setSearchBar(""); 
     };
 
     const currencyOptions = currenciesArray.map((currency, index) => (

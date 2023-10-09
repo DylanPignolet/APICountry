@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import {IAPICountry} from './Interface';
 import { useDebounce } from './hooks/useDebounce';
@@ -11,6 +11,8 @@ import Filtres from './Components/Filtres'
 import CountryRow from './Components/CountryRow'
 import Table from '@mui/joy/Table';
 import CircularProgress from '@mui/joy/CircularProgress';
+
+const BASE_URL = "https://restcountries.com/v3.1";
 
 /**Fonction permettant de mettre à jour notre site après que toutes les données aient été traitées. */
 function Countries() {
@@ -26,32 +28,29 @@ function Countries() {
     /** Récupération des données de l'API sous la forme json */
   const callApi = async () => {
     setLoading(true);
-    const response = await fetch("https://restcountries.com/v3.1/all")
+    const response = await fetch(`${BASE_URL}/all`)
     const jsonResponse = await response.json();
     setLoading(false)
     // console.log(jsonResponse);
     return jsonResponse;
   };
 
-  const callApiFiltreRegion = async (filtre) => {
+  const callApiFiltreRegion = useCallback((filtre: string) => {
     setLoading(true);
-    const response = await fetch(`https://restcountries.com/v3.1/${filtre}`)
-    const jsonResponse = await response.json();
-    setLoading(false)
-    // console.log(jsonResponse);
-    return jsonResponse;
-  };
-
-  const callApiFiltreCurrency = async (filtre) => {
-    setLoading(true);
-    let apiUrl = "https://restcountries.com/v3.1/all";
-    if (filtre) {
-        apiUrl = `https://restcountries.com/v3.1/currency/${filtre}`;
-    }
+    
+    const apiUrl = `${BASE_URL}/${filtre}`
     fetch(apiUrl).then(async (res) => {
       setLoading(false);
       setCountry(await res.json());
-      // return res.json();
+    })
+  }, [])
+
+  const callApiFiltreCurrency = async (filtre) => {
+    setLoading(true);
+    console.log(filtre)
+    fetch(`${BASE_URL}/${filtre ? "currency/" + filtre : "all"}`).then(async (res) => {
+      setLoading(false);
+      setCountry(await res.json());
     })
     // const response = await fetch(apiUrl);
     // const jsonResponse = await response.json();
@@ -63,7 +62,7 @@ function Countries() {
   /** Récupération des données de l'API selon la propriété name en la comparant avec ce qui est saisi dans la barre de recherche */
   const callApiName = async () => {
     setLoading(true);
-    const responseName = await fetch(`https://restcountries.com/v3.1/name/${searchBar}`);
+    const responseName = await fetch(`${BASE_URL}/name/${searchBar}`);
     const jsonResponseName = await responseName.json();
     setLoading(false)
     // console.log(jsonResponseName);
@@ -103,19 +102,19 @@ function Countries() {
 // Call API filtré au clic sur un bouton
 
   useEffect(() => {
-    callApiFiltreRegion(filter).then((countries) => setCountry(countries))
-  }, [filter]);
+    callApiFiltreRegion(filter)
+  }, [filter, callApiFiltreRegion]);
 
   useEffect(() => {
     if (currencyFilter) {
         callApiFiltreCurrency(currencyFilter);
     } else {
-        // Handle the case when no currency filter is selected, maybe reset to all countries
         callApi().then((result) => setCountry(result));
     }
   }, [currencyFilter]);
 
   if(checked) {
+    // Table display
     return(
       <Stack>
       <Switch 
@@ -155,6 +154,7 @@ function Countries() {
     </Stack>
     )
   } else {
+    // Cards display
     return(
       <Stack>
       <Switch color={checked ? 'success' : 'success'}
